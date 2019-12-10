@@ -14,7 +14,23 @@ services:
     volumes:
       - ./backend/db/data:/var/lib/mysql
     restart: always
-    
+
+  transactions_service:
+    restart: always
+    build: "./backend/services/transactions/"
+    container_name: transactions-service
+    command: /bin/sh -c 'python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8082'
+    volumes:
+      - ./backend/services/transactions/:/code/app/
+    ports:
+      - 8082:8082
+    env_file:
+      - ./backend/services/transactions/.env
+    depends_on:
+      - db
+    links:
+      - db:db
+
   quotes_service:
     build: "./backend/services/quotes/"
     container_name: quotes-service
