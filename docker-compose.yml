@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+
+  quotes_service:
+    build: "./backend/services/quotes/"
+    container_name: quotes-service
+    volumes:
+      - ./backend/services/quotes/:/code/app/
+    ports:
+      - 8080:8080
+
