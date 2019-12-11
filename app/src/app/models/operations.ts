@@ -1,6 +1,6 @@
 import { User } from "./user";
 
-export class Transaction{
+export class Operation{
     user: User;
     value: number;
     type: string;

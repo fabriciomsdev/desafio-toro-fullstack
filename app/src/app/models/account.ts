@@ -1,11 +1,11 @@
 import { User } from './user';
-import { Transaction } from './transactions';
+import { Operation } from './operations';
 
 export class Account {
          user = new User();
          balance = 0;
-         transactions: Array<Transaction> = [];
-         pappers: Array<Transaction> = [];
+         operations: Array<Operation> = [];
+         pappers: Array<Operation> = [];
     
          canUserRemoveValueOfAccount(value: number) {
            return this.balance >= value;
