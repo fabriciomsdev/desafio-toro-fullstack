@@ -3,8 +3,16 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
-};
+         production: false,
+         baseURLRequest: "http://0.0.0.0:8082/",
+         apiRoutes: {
+           register: "auth/users/create/",
+           login: "auth/jwt/create/",
+           me: "auth/users/me/",
+           orders: "api/orders/",
+           operations: "api/operations/"
+         }
+       };
 
 /*
  * For easier debugging in development mode, you can import the following file
