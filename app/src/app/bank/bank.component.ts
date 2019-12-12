@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from './../models/user';
 import Swal, { SweetAlertOptions } from "sweetalert2";
-import { Transaction } from '../models/transactions';
+import { Operation } from '../models/operations';
 import * as moment from 'moment';
 import { Account } from '../models/account';
+import { RestFullApiBaseService } from '../http/api-base.service';
 
 @Component({
   selector: "bank",
@@ -18,14 +19,14 @@ export class BankComponent implements OnInit {
       "Você não tem dinheiro o suficiente para executar está ação!"
   };
 
-  constructor() {}
+  constructor(restFullApiService: RestFullApiBaseService) {}
 
   presentAlert(alertDate: SweetAlertOptions) {
     Swal.fire(alertDate);
   }
 
   registerAnAport(value: number) {
-    this.account.transactions.push({
+    this.account.operations.push({
       user: this.account.user,
       value: value,
       type: "deposit",
@@ -40,7 +41,7 @@ export class BankComponent implements OnInit {
   }
 
   registerAnRemove(value: number) {
-    this.account.transactions.push({
+    this.account.operations.push({
       user: this.account.user,
       value: value,
       type: "draw",

@@ -5,6 +5,7 @@ import { MaterialModule } from '../shared/material/angular-material.module';
 
 // left for brevity
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('BankComponent', () => {
   let component: BankComponent;
@@ -13,6 +14,7 @@ describe('BankComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BankComponent],
+      imports:[HttpClientModule],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
@@ -45,7 +47,7 @@ describe('BankComponent', () => {
     component.makeAnAportOnAccount(value);
 
     expect(component.account.balance == 50).toBe(true);
-    expect(component.account.transactions.length == 1).toBe(true);
+    expect(component.account.operations.length == 1).toBe(true);
   });
 
   it("should make remove value in account balance", () => {
@@ -56,7 +58,7 @@ describe('BankComponent', () => {
 
     component.makeAnRemoveOnAccount(value);
     expect(component.account.balance == 0).toBe(true);
-    expect(component.account.transactions.length == 2).toBe(true);
+    expect(component.account.operations.length == 2).toBe(true);
   });
 
   it("should not lets user remove a value of account if account balance is less than value which removed", () => {
@@ -65,7 +67,7 @@ describe('BankComponent', () => {
     component.makeAnRemoveOnAccount(value);
 
     expect(component.account.balance == 0).toBe(true);
-    expect(component.account.transactions.length == 0).toBe(true);
+    expect(component.account.operations.length == 0).toBe(true);
   });
 
 });
