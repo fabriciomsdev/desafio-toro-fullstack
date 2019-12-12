@@ -10,11 +10,12 @@ import * as moment from "moment";
 export class UserGreetingComponent implements OnInit {
   @Input() user: User = new User();
   @Input() greetingPhrase: string;
+  @Input() userName: string;;
 
   getGreetingTime(m?) {
     var greetingTime = null; //return g
     m = moment(m);
-    
+
     if (!m || !m.isValid()) {
       return null;
     } //if we can't find a valid or filled moment, we return.
@@ -39,6 +40,6 @@ export class UserGreetingComponent implements OnInit {
       this.greetingPhrase = this.getGreetingTime(moment());
     }
 
-    this.user.name = this.user.name.split(" ")[0];
+    this.userName = this.user.name.split(" ")[0];
   }
 }

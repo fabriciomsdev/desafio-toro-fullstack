@@ -40,6 +40,6 @@ describe('UserGreetingComponent', () => {
     
     component.ngOnInit();
 
-    expect(component.user.name == "Fabricio").toBeTruthy();
+    expect(component.userName == "Fabricio").toBeTruthy();
   });
 });
