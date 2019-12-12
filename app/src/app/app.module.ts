@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './shared/material/angular-material.module';
 import { TradeModule } from './trade/trade.module';
 import { BankModule } from './bank/bank.module';
+import { UserGreetingComponent } from './user-greeting/user-greeting.component';
 
 @NgModule({
   declarations: [AppComponent],

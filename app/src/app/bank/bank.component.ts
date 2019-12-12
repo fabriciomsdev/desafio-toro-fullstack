@@ -8,7 +8,7 @@ import Swal, { SweetAlertOptions } from "sweetalert2";
   styleUrls: ["./bank.component.scss"]
 })
 export class BankComponent implements OnInit {
-  accountData = {
+  account = {
     user: new User(),
     balance: 0
   };
@@ -25,16 +25,16 @@ export class BankComponent implements OnInit {
   }
 
   makeAnAportOnAccount(value: number) {
-    this.accountData.balance += value;
+    this.account.balance += value;
   }
 
   canUserRemoveValueOfAccount(value: number) {
-    return this.accountData.balance >= value;
+    return this.account.balance >= value;
   }
 
   makeAnRemoveOnAccount(value: number) {
     if (this.canUserRemoveValueOfAccount(value)) {
-      this.accountData.balance -= value;
+      this.account.balance -= value;
     } else {
       this.presentAlert({
         text: this.errorMessages.userHasNotSuficientMoney
@@ -42,6 +42,9 @@ export class BankComponent implements OnInit {
     }
   }
 
+  makeAMoneyDraw() {}
+
+  makeAMoneyDeposit() {}
+
   ngOnInit() {}
-  
 }

@@ -1,13 +1,21 @@
-  <mat-card>
-    <mat-card-header>
-      <mat-card-subtitle>Olá Fabricio!</mat-card-subtitle>
-      <mat-card-title>Bom dia!</mat-card-title>
-    </mat-card-header>
-  </mat-card>
 
-  <mat-card>
-    <mat-card-header>
-      <mat-card-subtitle>Seu saldo:</mat-card-subtitle>
-      <mat-card-title>R$ 00,00</mat-card-title>
-    </mat-card-header>
-  </mat-card>
+<user-greeting [user]="account.user"></user-greeting>
+
+<section class="container"> 
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image">
+                <img src="./assets/images/money.png" alt="Saldo da conta" [style.width]="'50px'">
+            </div>
+            <mat-card-subtitle>Seu saldo:</mat-card-subtitle>
+            <mat-card-title>{{ account.balance | currency: 'BRL' }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button (click)="makeAMoneyDraw()" mat-raised-button color="warn">Sacar</button>
+            <button (click)="makeAMoneyDeposit()" mat-raised-button color="accent">Aportar</button>
+        </mat-card-actions>
+    </mat-card>
+</section>

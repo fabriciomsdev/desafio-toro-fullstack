@@ -1,0 +1,22 @@
+.user-greeting {
+    display: flex;
+
+    img {
+        border-radius: 100%;
+        height: 120px;
+        width: 120px;
+        overflow: hidden;
+        margin-right: 30px;
+    }
+
+    .text {
+        .title {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        .greeting {
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+    }
+}

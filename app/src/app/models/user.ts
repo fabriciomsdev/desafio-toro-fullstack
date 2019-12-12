@@ -1,5 +1,5 @@
 export class User {
   id;
   email;
-  name;
+  name = 'Fabricio Magalhães';
 }

@@ -28,9 +28,9 @@ describe('BankComponent', () => {
   });
 
   it('bank component has the default params', () => {
-    expect(component.accountData != null).toBe(true);
-    expect(component.accountData.user != null).toBe(true);
-    expect(component.accountData.balance == 0).toBe(true);
+    expect(component.account != null).toBe(true);
+    expect(component.account.user != null).toBe(true);
+    expect(component.account.balance == 0).toBe(true);
   })
 
   it('should has default methods for operate', () => {
@@ -44,17 +44,17 @@ describe('BankComponent', () => {
 
     component.makeAnAportOnAccount(value);
 
-    expect(component.accountData.balance == 50).toBe(true);
+    expect(component.account.balance == 50).toBe(true);
   });
 
   it("should make remove value in account balance", () => {
     const value = 50;
 
     component.makeAnAportOnAccount(value);
-    expect(component.accountData.balance == 50).toBe(true);
+    expect(component.account.balance == 50).toBe(true);
 
     component.makeAnRemoveOnAccount(value);
-    expect(component.accountData.balance == 0).toBe(true);
+    expect(component.account.balance == 0).toBe(true);
   });
 
   it("should not lets user remove a value of account if account balance is less than value which removed", () => {
@@ -62,7 +62,7 @@ describe('BankComponent', () => {
 
     component.makeAnRemoveOnAccount(value);
 
-    expect(component.accountData.balance == 0).toBe(true);
+    expect(component.account.balance == 0).toBe(true);
   });
 
   it("should not lets user remove a value of account if account balance is less than value which removed", () => {
@@ -70,7 +70,7 @@ describe('BankComponent', () => {
 
     component.makeAnRemoveOnAccount(value);
 
-    expect(component.accountData.balance == 0).toBe(true);
+    expect(component.account.balance == 0).toBe(true);
   });
 
 });
