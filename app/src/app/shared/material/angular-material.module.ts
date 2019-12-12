@@ -7,7 +7,11 @@ import {
   MatIconModule,
   MatCardModule,
   MatTabsModule,
-  MatGridListModule
+  MatGridListModule,
+  MatInputModule,
+  MatDialogModule,
+  MatTableModule,
+  MatProgressSpinnerModule
 } from "@angular/material";
 
 import { MatListModule } from "@angular/material/list";
@@ -21,7 +25,11 @@ import { MatListModule } from "@angular/material/list";
     MatIconModule,
     MatCardModule,
     MatGridListModule,
-    MatListModule
+    MatListModule,
+    MatInputModule,
+    MatDialogModule,
+    MatTableModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatTabsModule,
@@ -31,7 +39,14 @@ import { MatListModule } from "@angular/material/list";
     MatIconModule,
     MatCardModule,
     MatGridListModule,
-    MatListModule
+    MatListModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatCardModule,
+    MatInputModule,
+    MatDialogModule,
+    MatTableModule,
+    MatProgressSpinnerModule
   ]
 })
 export class MaterialModule {}
