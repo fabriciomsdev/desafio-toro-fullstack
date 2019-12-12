@@ -45,6 +45,7 @@ describe('BankComponent', () => {
     component.makeAnAportOnAccount(value);
 
     expect(component.account.balance == 50).toBe(true);
+    expect(component.transactions.length == 1).toBe(true);
   });
 
   it("should make remove value in account balance", () => {
@@ -55,6 +56,7 @@ describe('BankComponent', () => {
 
     component.makeAnRemoveOnAccount(value);
     expect(component.account.balance == 0).toBe(true);
+    expect(component.transactions.length == 2).toBe(true);
   });
 
   it("should not lets user remove a value of account if account balance is less than value which removed", () => {
@@ -63,14 +65,7 @@ describe('BankComponent', () => {
     component.makeAnRemoveOnAccount(value);
 
     expect(component.account.balance == 0).toBe(true);
-  });
-
-  it("should not lets user remove a value of account if account balance is less than value which removed", () => {
-    const value = 50;
-
-    component.makeAnRemoveOnAccount(value);
-
-    expect(component.account.balance == 0).toBe(true);
+    expect(component.transactions.length == 1).toBe(true);
   });
 
 });

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from './../models/user';
 import Swal, { SweetAlertOptions } from "sweetalert2";
+import { Transaction } from '../models/transactions';
+import * as moment from 'moment';
 
 @Component({
   selector: "bank",
@@ -17,7 +19,7 @@ export class BankComponent implements OnInit {
     userHasNotSuficientMoney:
       "Você não tem dinheiro o suficiente para executar está ação!"
   };
-  transactions = [];
+  transactions: Array<Transaction> = [];
 
   constructor() {}
 
@@ -25,8 +27,28 @@ export class BankComponent implements OnInit {
     Swal.fire(alertDate);
   }
 
+  registerAnAport(value: number) {
+    this.transactions.push({
+      user: this.account.user,
+      value: value,
+      type: "deposit",
+      created_at: moment.now()
+    });
+  }
+
   makeAnAportOnAccount(value: number) {
     this.account.balance += value;
+
+    this.registerAnAport(value);
+  }
+
+  registerAnRemove(value: number) {
+    this.transactions.push({
+      user: this.account.user,
+      value: value,
+      type: "draw",
+      created_at: moment.now()
+    });
   }
 
   canUserRemoveValueOfAccount(value: number) {
@@ -36,10 +58,11 @@ export class BankComponent implements OnInit {
   makeAnRemoveOnAccount(value: number) {
     if (this.canUserRemoveValueOfAccount(value)) {
       this.account.balance -= value;
+      this.registerAnRemove(value);
     } else {
       this.presentAlert({
         text: this.errorMessages.userHasNotSuficientMoney,
-        icon: 'error'
+        icon: "error"
       });
     }
   }
