@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from './../models/user';
+import Swal, { SweetAlertOptions } from "sweetalert2";
 
 @Component({
   selector: "bank",
@@ -19,7 +20,9 @@ export class BankComponent implements OnInit {
 
   constructor() {}
 
-  presentToast(message, color = "default", duration = 3000) {}
+  presentAlert(alertDate: SweetAlertOptions) {
+    Swal.fire(alertDate);
+  }
 
   makeAnAportOnAccount(value: number) {
     this.accountData.balance += value;
@@ -33,9 +36,12 @@ export class BankComponent implements OnInit {
     if (this.canUserRemoveValueOfAccount(value)) {
       this.accountData.balance -= value;
     } else {
-      this.presentToast(this.errorMessages.userHasNotSuficientMoney);
+      this.presentAlert({
+        text: this.errorMessages.userHasNotSuficientMoney
+      });
     }
   }
 
   ngOnInit() {}
+  
 }
