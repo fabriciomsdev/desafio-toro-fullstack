@@ -11,20 +11,20 @@ import {
 
 @NgModule({
   imports: [
+    MatTabsModule,
     MatButtonModule,
     MatMenuModule,
     MatToolbarModule,
     MatIconModule,
     MatCardModule,
-    MatTabsModule,
   ],
   exports: [
+    MatTabsModule,
     MatButtonModule,
     MatMenuModule,
     MatToolbarModule,
     MatIconModule,
     MatCardModule,
-    MatTabsModule,
   ]
 })
 export class MaterialModule {}

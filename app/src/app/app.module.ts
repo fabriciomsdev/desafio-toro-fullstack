@@ -5,19 +5,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './shared/material/angular-material.module';
-import { BankComponent } from './bank/bank.component';
 import { TradeModule } from './trade/trade.module';
-import { MatTabsModule } from '@angular/material';
+import { BankModule } from './bank/bank.module';
 
 @NgModule({
-  declarations: [AppComponent, BankComponent],
+  declarations: [AppComponent],
   imports: [
     MaterialModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     TradeModule,
-    MatTabsModule
+    BankModule
   ],
   providers: [],
   bootstrap: [AppComponent]
