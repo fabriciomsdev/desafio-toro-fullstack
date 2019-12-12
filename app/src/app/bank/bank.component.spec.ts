@@ -65,7 +65,7 @@ describe('BankComponent', () => {
     component.makeAnRemoveOnAccount(value);
 
     expect(component.account.balance == 0).toBe(true);
-    expect(component.transactions.length == 1).toBe(true);
+    expect(component.transactions.length == 0).toBe(true);
   });
 
 });

@@ -1,1 +1,21 @@
-<p>trade works!</p>
+<section class="container">
+    <h3>Oportunidades:</h3>
+
+    <small *ngIf="quotes.length == 0" >
+        Carregando papeis, títulos e fundos.
+    </small>
+
+    <mat-card *ngFor="let quote of quotes" class="quote-card">
+        <mat-card-header>
+            <div mat-card-avatar>
+                <mat-icon mat-list-icon color="accent">attach_money</mat-icon>
+            </div>
+            <mat-card-subtitle>{{ quote.sigla }}</mat-card-subtitle>
+            <mat-card-title>{{ quote.lastValue | currency: 'BRL' }}</mat-card-title>
+            <div class="quote-card__button-box" >
+                <button (click)="buyPapper()" mat-raised-button color="accent" align="end">Comprar</button>
+            </div>
+        </mat-card-header>
+    </mat-card>
+
+</section>
