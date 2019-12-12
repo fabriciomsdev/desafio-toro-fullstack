@@ -25,12 +25,12 @@
         </mat-card-header>
         <mat-card-content>
 
-        <small *ngIf="transactions.length == 0" >
+        <small *ngIf="account.transactions.length == 0" >
             Nenhuma transação foi registrada
         </small>
 
         <mat-list>
-            <mat-list-item *ngFor="let transaction of transactions">
+            <mat-list-item *ngFor="let transaction of account.transactions">
                 <mat-icon mat-list-icon *ngIf="transaction.type == 'deposit'" color="accent">attach_money</mat-icon>
                 <mat-icon mat-list-icon *ngIf="transaction.type == 'draw'" color="warn">money_off</mat-icon>
                 <h4 mat-line>{{ transaction.value | currency: 'BRL' }}</h4>

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { User } from './../models/user';
 import Swal, { SweetAlertOptions } from "sweetalert2";
 import { Transaction } from '../models/transactions';
 import * as moment from 'moment';
+import { Account } from '../models/account';
 
 @Component({
   selector: "bank",
@@ -10,16 +11,12 @@ import * as moment from 'moment';
   styleUrls: ["./bank.component.scss"]
 })
 export class BankComponent implements OnInit {
-  account = {
-    user: new User(),
-    balance: 0
-  };
+  @Input() account = new Account();
   valueToAction = 0;
   errorMessages = {
     userHasNotSuficientMoney:
       "Você não tem dinheiro o suficiente para executar está ação!"
   };
-  transactions: Array<Transaction> = [];
 
   constructor() {}
 
@@ -28,7 +25,7 @@ export class BankComponent implements OnInit {
   }
 
   registerAnAport(value: number) {
-    this.transactions.push({
+    this.account.transactions.push({
       user: this.account.user,
       value: value,
       type: "deposit",
@@ -43,7 +40,7 @@ export class BankComponent implements OnInit {
   }
 
   registerAnRemove(value: number) {
-    this.transactions.push({
+    this.account.transactions.push({
       user: this.account.user,
       value: value,
       type: "draw",
