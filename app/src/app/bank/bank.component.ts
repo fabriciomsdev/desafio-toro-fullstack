@@ -17,6 +17,7 @@ export class BankComponent implements OnInit {
     userHasNotSuficientMoney:
       "Você não tem dinheiro o suficiente para executar está ação!"
   };
+  transactions = [];
 
   constructor() {}
 
@@ -37,14 +38,37 @@ export class BankComponent implements OnInit {
       this.account.balance -= value;
     } else {
       this.presentAlert({
-        text: this.errorMessages.userHasNotSuficientMoney
+        text: this.errorMessages.userHasNotSuficientMoney,
+        icon: 'error'
       });
     }
   }
 
-  makeAMoneyDraw() {}
+  async makeAMoneyDraw() {
+    const { value: number } = await Swal.fire({
+      title: "Faça uma retirada.",
+      text: "Digite abaixo o valor que deseja retirar:",
+      input: "number",
+      inputPlaceholder: "00,00"
+    });
 
-  makeAMoneyDeposit() {}
+    if (number) {
+      this.makeAnRemoveOnAccount(Number(number));
+    }
+  }
+
+  async makeAMoneyDeposit() {
+    const { value: number } = await Swal.fire({
+      title: "Faça um aporte.",
+      text: "Digite abaixo o valor que deseja aportar:",
+      input: "number",
+      inputPlaceholder: "00,00"
+    });
+
+    if (number) {
+      this.makeAnAportOnAccount(Number(number));
+    }
+  }
 
   ngOnInit() {}
 }
