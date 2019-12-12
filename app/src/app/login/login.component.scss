@@ -1,0 +1,56 @@
+.login-container {
+    width: 100%;
+    height: 100%;
+    background-image: url('/assets/images/background-login.jpg');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    .login-container-backdrop {
+        background-color: rgba(0,0,0, 0.6);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .login-box {
+            width: 280px;
+            mat-spinner {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .description {
+                color: white;
+                width: 100%;
+                text-align: center;
+            }
+            .logo {
+                width: 200px;
+                margin-left: 40px;
+                margin-right: 40px;
+                margin-bottom: 30px;
+            }
+            ::ng-deep .mat-form-field {
+                .mat-form-field-flex {
+                    background-color: white !important;
+                    border-radius: 30px;
+                    overflow: hidden;
+                    padding: 5px;
+                }
+            }
+            .input, mat-form-field{
+                width: 100%;
+                display: block;
+                margin-bottom: 20px;
+            }
+            button {
+                width: 100%;
+                margin-bottom: 20px;
+                border-radius: 30px;
+            }
+        }
+    }
+}

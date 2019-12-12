@@ -1,0 +1,40 @@
+<section class="login-container">
+    <section class="login-container-backdrop">
+        <div class="login-box">
+            <img class="logo" src="./assets/images/toro-logo.svg" alt="{{title}}">
+
+            <ng-container *ngIf="!showSpinner">
+                <form [formGroup]="userForm">
+                    <p class="description">Faça Login ou Registre-se</p>
+                    <ng-container *ngIf="userNotHasAccount">
+                        <mat-form-field class="input">
+                            <input matInput placeholder="Seu Nome:" formControlName="name" name="name" required>
+                        </mat-form-field>
+                    </ng-container>
+                    <mat-form-field class="input">
+                        <input matInput placeholder="Email:" formControlName="email" name="email" required>
+                    </mat-form-field>
+                    <mat-form-field class="input">
+                        <input matInput placeholder="Senha:" formControlName="password"type="password" name="password" required>
+                    </mat-form-field>
+                </form>
+                
+                <ng-container *ngIf="!userNotHasAccount">
+                    <button mat-raised-button (click)="makeLogin()" color="accent">Login</button>
+                    <button mat-raised-button (click)="userNotHasAccount = true" color="success">
+                        Não tenho cadastro.
+                    </button>
+                </ng-container>
+
+                <ng-container *ngIf="userNotHasAccount">
+                    <button mat-raised-button (click)="makeRegister()" color="success">Registrar</button>
+                </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="showSpinner">
+                <mat-spinner [style.display]="showSpinner ? 'block' : 'none'" color="accent"></mat-spinner>
+            </ng-container>
+            
+        </div>
+    </section>
+</section>
