@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TradeModule } from './trade/trade.module';
 import { BankModule } from './bank/bank.module';
+import { User } from './models/user';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -28,5 +29,11 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
+  });
+
+  it("Test if initial balance is 0", () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app.account.balance).toBe(0);
   });
 });
