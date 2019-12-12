@@ -8,16 +8,15 @@ import * as moment from "moment";
   styleUrls: ["./user-greeting.component.scss"]
 })
 export class UserGreetingComponent implements OnInit {
-  @Input() user: User;
+  @Input() user: User = new User();
   @Input() greetingPhrase: string;
 
-  constructor() {}
-
-  getGreetingTime(m) {
+  getGreetingTime(m?) {
     var greetingTime = null; //return g
-
+    m = moment(m);
+    
     if (!m || !m.isValid()) {
-      return;
+      return null;
     } //if we can't find a valid or filled moment, we return.
 
     var splitAfternoon = 12; //24hr time to split the afternoon
@@ -40,8 +39,6 @@ export class UserGreetingComponent implements OnInit {
       this.greetingPhrase = this.getGreetingTime(moment());
     }
 
-    if (this.user) {
-      this.user.name = this.user.name.split(" ")[0];
-    }
+    this.user.name = this.user.name.split(" ")[0];
   }
 }
