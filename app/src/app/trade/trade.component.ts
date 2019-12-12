@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { QuotesService } from './quotes.service';
 import { Quote } from './../models/quotes';
 
@@ -10,7 +10,8 @@ import { Quote } from './../models/quotes';
 export class TradeComponent implements OnInit {
   quotes: Array<Quote> = [];
   ordersList = [];
-
+  @Input() account;
+  
   constructor(public quotesService: QuotesService) {}
 
   calcQuoteAmountValue(quote: Quote, quantity: number) {
