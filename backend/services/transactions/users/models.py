@@ -12,7 +12,7 @@ class UserModel(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name', 'password']
+    REQUIRED_FIELDS = ['name']
 
     class Meta:
         db_table = "users"
