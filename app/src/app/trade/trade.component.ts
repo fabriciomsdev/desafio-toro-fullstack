@@ -11,7 +11,7 @@ export class TradeComponent implements OnInit {
   quotes: Array<Quote> = [];
   ordersList = [];
   @Input() account;
-  
+
   constructor(public quotesService: QuotesService) {}
 
   calcQuoteAmountValue(quote: Quote, quantity: number) {
@@ -28,6 +28,17 @@ export class TradeComponent implements OnInit {
   async buyAnPapper(quote: Quote, quantity: number) {
     const amountValue = this.calcQuoteAmountValue(quote, quantity);
   }
+
+  /*async buyAnPapper(quote: Quote, quantity: number) {
+    const amountValue = this.calcQuoteAmountValue(quote, quantity);
+
+    if (this.canUserRemoveValueOfAccount(amountValue)) {
+      await this.saveOrder(quote, quantity);
+      this.makeAnRemoveOnAccount(amountValue);
+    } else {
+      this.presentToast(this.errorMessages.userHasNotSuficientMoney);
+    }
+  }*/
 
   ngOnInit() {
     this.quotesService.listenQuotesChanges(
