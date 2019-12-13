@@ -46,27 +46,3 @@ class UsersActionsTestCase(TestCase):
 
         self.verify_response_return(response, 200)
 
-    def test_if_user_can_update(self):
-        """Test if user can update your profile"""
-        self.register_user_request()
-        login_token = self.login_user_request().content.access
-
-        data = {
-            'name': 'Boulevard Napoleão de Magalhães'
-        }
-
-        client = Client()
-
-        response = client.post('api/users', data, **{
-            'Authorization': 'Bearer ' + str(login_token)
-        })
-
-        self.verify_response_return(response, 200)
-
-        self.assertEqual(response.content, {
-            'name': 'Boulevard Napoleão de Magalhães',
-            'phone': '5577988114527',
-            'email': 'fabriciosss@gmail.com'
-        })
-
-        print(response.content)
