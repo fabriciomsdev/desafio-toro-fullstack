@@ -19,43 +19,64 @@ export class BankComponent implements OnInit {
       "Você não tem dinheiro o suficiente para executar está ação!"
   };
 
-  constructor(restFullApiService: RestFullApiBaseService) {}
+  constructor(public restFullApiService: RestFullApiBaseService) {}
 
   presentAlert(alertDate: SweetAlertOptions) {
     Swal.fire(alertDate);
   }
 
   registerAnAport(value: number) {
-    this.account.operations.push({
-      user: this.account.user,
-      value: value,
-      type: "deposit",
-      created_at: moment.now()
-    });
+    this.restFullApiService
+      .setResource("operations")
+      .post({
+        value: value,
+        operation_type: "deposit"
+      })
+      .subscribe((res:any) => {
+        this.makeAnAportOnAccount(res.value);
+      });
   }
 
   makeAnAportOnAccount(value: number) {
-    this.account.balance += value;
+    this.account.operations.deposits.push({
+      user: this.account.user,
+      value: value,
+      operation_type: "deposit",
+      created_at: moment.now()
+    });
 
-    this.registerAnAport(value);
+    return this.account.calculateBalance();
+  }
+
+  makeAnRemoveOnAccount(value: number) {
+    this.account.operations.draws.push({
+      user: this.account.user,
+      value: value,
+      operation_type: "draw",
+      created_at: moment.now()
+    });
+
+    return this.account.calculateBalance();
   }
 
   registerAnRemove(value: number) {
-    this.account.operations.push({
-      user: this.account.user,
-      value: value,
-      type: "draw",
-      created_at: moment.now()
-    });
+    this.restFullApiService
+      .setResource("operations")
+      .post({
+        value: value,
+        operation_type: "draw"
+      })
+      .subscribe((res:any) => {
+        this.makeAnRemoveOnAccount(res.value);
+      });
   }
 
   canUserRemoveValueOfAccount(value: number) {
     return this.account.balance >= value;
   }
 
-  makeAnRemoveOnAccount(value: number) {
+  verifyAndmakeAnRemoveOnAccount(value: number) {
     if (this.canUserRemoveValueOfAccount(value)) {
-      this.account.balance -= value;
       this.registerAnRemove(value);
     } else {
       this.presentAlert({
@@ -65,7 +86,7 @@ export class BankComponent implements OnInit {
     }
   }
 
-  async makeAMoneyDraw() {
+  async beginMakeAMoneyDraw() {
     const { value: number } = await Swal.fire({
       title: "Faça uma retirada.",
       text: "Digite abaixo o valor que deseja retirar:",
@@ -74,11 +95,11 @@ export class BankComponent implements OnInit {
     });
 
     if (number) {
-      this.makeAnRemoveOnAccount(Number(number));
+      this.registerAnRemove(Number(number));
     }
   }
 
-  async makeAMoneyDeposit() {
+  async beginMakeAMoneyDeposit() {
     const { value: number } = await Swal.fire({
       title: "Faça um aporte.",
       text: "Digite abaixo o valor que deseja aportar:",
@@ -87,7 +108,7 @@ export class BankComponent implements OnInit {
     });
 
     if (number) {
-      this.makeAnAportOnAccount(Number(number));
+      this.registerAnAport(Number(number));
     }
   }
 
