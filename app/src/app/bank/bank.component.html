@@ -2,61 +2,65 @@
 <user-greeting [user]="account.user"></user-greeting>
 
 <section class="container"> 
-    <mat-card>
-        <mat-card-header>
-            <div mat-card-avatar>
-                <img src="./assets/images/money.png" alt="Saldo da conta" [style.width]="'50px'">
-            </div>
-            <mat-card-subtitle>Seu saldo:</mat-card-subtitle>
-            <mat-card-title>{{ account.balance | currency: 'BRL' }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
+    <section>
+        <mat-card>
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <img src="./assets/images/money.png" alt="Saldo da conta" [style.width]="'50px'">
+                </div>
+                <mat-card-subtitle>Seu saldo:</mat-card-subtitle>
+                <mat-card-title>{{ account.balance | currency: 'BRL' }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button (click)="beginMakeAMoneyDraw()" mat-raised-button color="warn">Sacar</button>
+                <button (click)="beginMakeAMoneyDeposit()" mat-raised-button color="accent">Aportar</button>
+            </mat-card-actions>
+        </mat-card>
+    </section>
+
+    <section>
+        <mat-card class="operations-box" *ngIf="account.operations">
+            <mat-card-header>
+                <mat-card-title>Extrato:</mat-card-title>
+                <mat-card-subtitle>Aportes:</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <small *ngIf="account.operations.deposits.length == 0" >
+                    Nenhuma Aporte foi registrado
+                </small>
+
+                <mat-list>
+                    <mat-list-item *ngFor="let deposits of account.operations.deposits">
+                        <mat-icon mat-list-icon color="accent">attach_money</mat-icon>
+                        <h4 mat-line>{{ deposits.value | currency: 'BRL' }}</h4>
+                        <p mat-line> {{ deposits.created_at | date }} </p>
+                    </mat-list-item>
+                </mat-list>
+            </mat-card-content>
+
+            <mat-card-header>
+                <mat-card-subtitle>Retiradas:</mat-card-subtitle>
+            </mat-card-header>
             
-        </mat-card-content>
-        <mat-card-actions align="end">
-            <button (click)="beginMakeAMoneyDraw()" mat-raised-button color="warn">Sacar</button>
-            <button (click)="beginMakeAMoneyDeposit()" mat-raised-button color="accent">Aportar</button>
-        </mat-card-actions>
-    </mat-card>
+            <mat-card-content>
 
-    <mat-card class="operations-box" *ngIf="account.operations">
-        <mat-card-header>
-            <mat-card-title>Extrato:</mat-card-title>
-            <mat-card-subtitle>Aportes:</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-            <small *ngIf="account.operations.deposits.length == 0" >
-                Nenhuma Aporte foi registrado
-            </small>
+                <small *ngIf="account.operations.deposits.length == 0" >
+                    Nenhuma Retirada foi registrada
+                </small>
 
-            <mat-list>
-                <mat-list-item *ngFor="let deposits of account.operations.deposits">
-                    <mat-icon mat-list-icon color="accent">attach_money</mat-icon>
-                    <h4 mat-line>{{ deposits.value | currency: 'BRL' }}</h4>
-                    <p mat-line> {{ deposits.created_at | date }} </p>
-                </mat-list-item>
-            </mat-list>
-        </mat-card-content>
-
-        <mat-card-header>
-            <mat-card-subtitle>Retiradas:</mat-card-subtitle>
-        </mat-card-header>
-        
-        <mat-card-content>
-
-            <small *ngIf="account.operations.deposits.length == 0" >
-                Nenhuma Retirada foi registrada
-            </small>
-
-            <mat-list>
-                <mat-list-item *ngFor="let draws of account.operations.draws">
-                    <mat-icon mat-list-icon color="warn">money_off</mat-icon>
-                    <h4 mat-line>{{ draws.value | currency: 'BRL' }}</h4>
-                    <p mat-line> {{ draws.created_at | date }} </p>
-                </mat-list-item>
-            </mat-list>
-        </mat-card-content>
+                <mat-list>
+                    <mat-list-item *ngFor="let draws of account.operations.draws">
+                        <mat-icon mat-list-icon color="warn">money_off</mat-icon>
+                        <h4 mat-line>{{ draws.value | currency: 'BRL' }}</h4>
+                        <p mat-line> {{ draws.created_at | date }} </p>
+                    </mat-list-item>
+                </mat-list>
+            </mat-card-content>
 
 
-    </mat-card>
+        </mat-card>
+    </section>
 </section>
