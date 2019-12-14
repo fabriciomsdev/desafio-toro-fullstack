@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Account } from '../models/account';
+import { Account, OrdersGroup, OperationsGroup } from '../models/account';
 import { RestFullApiBaseService } from '../http/api-base.service';
 import { UserService } from '../login/auth.service';
 import { User } from '../models/user';
+import { Operation } from '../models/operations';
+import { Order } from '../models/order';
 
 @Component({
   selector: "app-account",
@@ -15,7 +17,6 @@ export class AccountComponent implements OnInit {
   constructor(public restFullApiService: RestFullApiBaseService, public authService: UserService) {}
 
   ngOnInit() {
-    console.log("this.authService.isAuth()", this.authService.isAuth());
     if (this.authService.isAuth()) {
       this.restFullApiService
           .setResource('me')
@@ -26,12 +27,18 @@ export class AccountComponent implements OnInit {
             this.restFullApiService
               .setResource("operations")
               .fetch()
-              .subscribe(operations => console.log(operations));
+              .subscribe(
+                (operations: OperationsGroup) => {
+                  this.account.setOperations(operations);
+                });
 
             this.restFullApiService
               .setResource("orders")
               .fetch()
-              .subscribe(orders => console.log(orders));
+              .subscribe(
+                (orders: OrdersGroup) => {
+                  this.account.setOrders(orders);
+                });
           })
     }
   }
