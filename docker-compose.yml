@@ -19,7 +19,7 @@ services:
     restart: always
     build: "./backend/services/transactions/"
     container_name: transactions-service
-    command: /bin/sh -c 'python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8082'
+    command: /bin/sh -c 'python manage.py makemigrations --no-input && python manage.py migrate && python manage.py runserver 0.0.0.0:8082'
     volumes:
       - ./backend/services/transactions/:/code/app/
     ports:
