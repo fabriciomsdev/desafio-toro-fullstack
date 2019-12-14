@@ -29,6 +29,9 @@
                 <ng-container *ngIf="userNotHasAccount">
                     <button mat-raised-button (click)="makeRegister()" color="accent">Registrar</button>
                 </ng-container>
+                <ng-container *ngIf="userNotHasAccount">
+                    <button mat-raised-button (click)="userNotHasAccount = false" color="success">Voltar par o login</button>
+                </ng-container>
             </ng-container>
 
             <ng-container *ngIf="showSpinner">
