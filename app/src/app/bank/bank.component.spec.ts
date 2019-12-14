@@ -6,6 +6,7 @@ import { MaterialModule } from '../shared/material/angular-material.module';
 // left for brevity
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { Account } from '../models/account';
 
 describe('BankComponent', () => {
   let component: BankComponent;
@@ -23,6 +24,7 @@ describe('BankComponent', () => {
     fixture = TestBed.createComponent(BankComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.account = new Account()
   });
 
   it('should create', () => {
@@ -43,31 +45,45 @@ describe('BankComponent', () => {
 
   it("should make add value in account balance", () => {
     const value = 50;
-
+    component.account.clearValues();
+    const oldDepositsLength = component.account.operations.deposits.length;
     component.makeAnAportOnAccount(value);
 
     expect(component.account.balance == 50).toBe(true);
-    expect(component.account.operations.length == 1).toBe(true);
+    expect(
+      component.account.operations.deposits.length == oldDepositsLength + 1
+    ).toBe(true);
   });
 
   it("should make remove value in account balance", () => {
+    component.account.clearValues();
     const value = 50;
 
-    component.makeAnAportOnAccount(value);
+    expect(component.account.balance == 0).toBe(true);
+
+    component.makeAnAportOnAccount(value)
     expect(component.account.balance == 50).toBe(true);
 
+    
     component.makeAnRemoveOnAccount(value);
     expect(component.account.balance == 0).toBe(true);
-    expect(component.account.operations.length == 2).toBe(true);
+    expect(
+      component.account.operations.deposits.length == 1
+    ).toBe(true);
+    expect(
+      component.account.operations.draws.length == 1
+    ).toBe(true);
   });
 
   it("should not lets user remove a value of account if account balance is less than value which removed", () => {
     const value = 50;
+    component.account.clearValues();
 
-    component.makeAnRemoveOnAccount(value);
-
+    if (component.canUserRemoveValueOfAccount(value)) {
+      component.makeAnRemoveOnAccount(value);
+    }
+    
     expect(component.account.balance == 0).toBe(true);
-    expect(component.account.operations.length == 0).toBe(true);
   });
 
 });
