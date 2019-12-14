@@ -3,13 +3,13 @@ from main.models import SafeDeleteModel, BelongsToUserModel
 
 
 ORDER_CHOICES = (
-    ('draw', 'Draw',),
-    ('deposit', 'Deposit',),
+    ('sell', 'Draw',),
+    ('bought', 'Deposit',),
 )
 
 OPERATION_CHOICES = (
-    ('sell', 'Draw',),
-    ('bought', 'Deposit',),
+    ('draw', 'Draw',),
+    ('deposit', 'Deposit',),
 )
 
 class Order(BelongsToUserModel):
@@ -20,7 +20,7 @@ class Order(BelongsToUserModel):
 
 
 class Operation(BelongsToUserModel):
-    price = models.FloatField(null=True, blank=True, default=0)
+    value = models.FloatField(null=True, blank=True, default=0)
     operation_type = models.CharField(
         choices=OPERATION_CHOICES, null=True, blank=True, max_length=10)
 
