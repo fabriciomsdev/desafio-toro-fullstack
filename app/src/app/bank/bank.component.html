@@ -31,7 +31,7 @@
 
             <mat-list>
                 <mat-list-item *ngFor="let deposits of account.operations.deposits">
-                    <mat-icon mat-list-icon color="warn">attach_money</mat-icon>
+                    <mat-icon mat-list-icon color="accent">attach_money</mat-icon>
                     <h4 mat-line>{{ deposits.value | currency: 'BRL' }}</h4>
                     <p mat-line> {{ deposits.created_at | date }} </p>
                 </mat-list-item>
