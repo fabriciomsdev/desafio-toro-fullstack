@@ -97,7 +97,7 @@ export class BankComponent implements OnInit {
     let moneyValue = Number(number);
 
     if (moneyValue) {
-      this.registerAnRemove(moneyValue);
+      this.verifyAndmakeAnRemoveOnAccount(moneyValue);
     }
   }
 
