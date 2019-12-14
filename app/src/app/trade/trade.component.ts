@@ -16,7 +16,7 @@ import * as moment from 'moment';
 export class TradeComponent implements OnInit {
   quotes: Array<Quote> = [];
   ordersList = [];
-  @Input() account: Account;
+  @Input() account: Account = new Account();
   @Output() afterOperationExecuted = new EventEmitter();
 
   constructor(
@@ -92,16 +92,23 @@ export class TradeComponent implements OnInit {
     }
   }
 
-  setupQuotesChangeObserver() {
-    this.quotesService.whenQuotesChange((quotesUpdated, lastQuote) => {
-      this.quotes = quotesUpdated;
-      this.account.wallet.pappers.forEach(papper => {
-        if (papper.quote.sigla == lastQuote.sigla) {
-          papper.quote = lastQuote;
-          papper.calcCurrentValue();
-        }
-      });
+  receiveQuotesChangeAndApplyUpdatesOnPappers(quotesUpdated, lastQuote){
+    this.quotes = quotesUpdated;
+    this.account.wallet.pappers.forEach(papper => {
+      if (papper.quote.sigla == lastQuote.sigla) {
+        papper.quote = lastQuote;
+        this.account.wallet.calcBalance();
+        papper.calcCurrentValue();
+      }
     });
+  }
+
+  setupQuotesChangeObserver() {
+
+    this.quotesService
+      .whenQuotesChange((quotesUpdated, lastQuote) => {
+        this.receiveQuotesChangeAndApplyUpdatesOnPappers(quotesUpdated, lastQuote)
+      });
   }
 
   ngOnInit() {

@@ -1,3 +1,26 @@
+
+<section class="container">
+    <section *ngIf="account">
+        <mat-card color="accent">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <img src="./assets/images/money.png" alt="Saldo da conta" [style.width]="'50px'">
+                </div>
+                <mat-card-title>
+                    Sua Carteira:
+                </mat-card-title>
+                <br>
+                <mat-card-subtitle>
+                    Valor Investido: {{ account.wallet.balance | currency: 'BRL' }}
+                </mat-card-subtitle>
+                <mat-card-subtitle>
+                    Saldo disponível: {{ account.balance | currency: 'BRL' }}
+                </mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+    </section>
+</section>
+
 <section class="container">
     
 
@@ -5,34 +28,38 @@
         Carregando papeis, títulos e fundos.
     </small>
 
-    <h3 *ngIf="account.wallet.pappers.length > 0">Sua Carteira:</h3>
+    <section *ngIf="account.wallet.pappers.length > 0">
+        <h3>Seu papeis:</h3>
+        <mat-card *ngFor="let papper of account.wallet.pappers" class="quote-card">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <mat-icon mat-list-icon color="accent">attach_money</mat-icon>
+                </div>
+                <mat-card-subtitle>{{ papper.order.quantity }} x <b>{{ papper.quote.sigla }}</b>, Unit: {{ papper.quote.lastValue | currency: 'BRL' }}</mat-card-subtitle>
+                <mat-card-title *ngIf="papper.currentValue">{{ papper.currentValue | currency: 'BRL' }}</mat-card-title>
+                <mat-card-title *ngIf="!papper.currentValue">Carregando ...</mat-card-title>
+                <div class="quote-card__button-box" >
+                    <button (click)='beginSellOrderProccess(papper)' mat-raised-button color="primary" align="end">Vender</button>
+                </div>
+            </mat-card-header>
+        </mat-card>
+    </section>
 
-    <mat-card *ngFor="let papper of account.wallet.pappers" class="quote-card">
-        <mat-card-header>
-            <div mat-card-avatar>
-                <mat-icon mat-list-icon color="accent">attach_money</mat-icon>
-            </div>
-            <mat-card-subtitle>{{ papper.order.quantity }} x <b>{{ papper.quote.sigla }}</b>, Unit: {{ papper.quote.lastValue | currency: 'BRL' }}</mat-card-subtitle>
-            <mat-card-title>{{ papper.currentValue | currency: 'BRL' }}</mat-card-title>
-            <div class="quote-card__button-box" >
-                <button (click)='beginSellOrderProccess(papper)' mat-raised-button color="primary" align="end">Vender</button>
-            </div>
-        </mat-card-header>
-    </mat-card>
+    <section>
+        <h3>Oportunidades:</h3>
 
-    <h3>Oportunidades:</h3>
-
-    <mat-card *ngFor="let quote of quotes" class="quote-card">
-        <mat-card-header>
-            <div mat-card-avatar>
-                <mat-icon mat-list-icon color="accent">attach_money</mat-icon>
-            </div>
-            <mat-card-subtitle>{{ quote.sigla }}</mat-card-subtitle>
-            <mat-card-title>{{ quote.lastValue | currency: 'BRL' }}</mat-card-title>
-            <div class="quote-card__button-box" >
-                <button (click)='beginBuyOrderProccess(quote)' mat-raised-button color="accent" align="end">Comprar</button>
-            </div>
-        </mat-card-header>
-    </mat-card>
+        <mat-card *ngFor="let quote of quotes" class="quote-card">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <mat-icon mat-list-icon color="accent">attach_money</mat-icon>
+                </div>
+                <mat-card-subtitle>{{ quote.sigla }}</mat-card-subtitle>
+                <mat-card-title>{{ quote.lastValue | currency: 'BRL' }}</mat-card-title>
+                <div class="quote-card__button-box" >
+                    <button (click)='beginBuyOrderProccess(quote)' mat-raised-button color="accent" align="end">Comprar</button>
+                </div>
+            </mat-card-header>
+        </mat-card>
+    </section>
 
 </section>
