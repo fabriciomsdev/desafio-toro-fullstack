@@ -1,6 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { QuotesService } from './quotes.service';
 import { Quote } from './../models/quotes';
+import { Account } from '../models/account';
+import Swal from 'sweetalert2';
+import { RestFullApiBaseService } from '../http/api-base.service';
+import { Order } from '../models/order';
+import { Wallet } from "../models/wallet";
+import * as moment from 'moment';
 
 @Component({
   selector: "trade",
@@ -10,39 +16,83 @@ import { Quote } from './../models/quotes';
 export class TradeComponent implements OnInit {
   quotes: Array<Quote> = [];
   ordersList = [];
-  @Input() account;
-
-  constructor(public quotesService: QuotesService) {}
+  @Input() account: Account;
+  @Output() afterOperationExecuted = new EventEmitter();
+  
+  constructor(
+    public quotesService: QuotesService,
+    public restFullApiService: RestFullApiBaseService
+  ) {}
 
   calcQuoteAmountValue(quote: Quote, quantity: number) {
     return quote.getLastQuoteValue().value * quantity;
   }
 
-  async saveOrder(quote: Quote, quantity: number) {
-    this.ordersList.push({
-      quote,
-      quantity
+  saveOrder(type: string, quote: Quote, quantity: number) {
+    this.restFullApiService
+      .setResource("orders")
+      .post({
+        sigla: quote.sigla,
+        quantity: quantity,
+        order_type: type
+      })
+      .subscribe((order: Order) => {
+        if (type == "bought") {
+          this.account.wallet.addPapper(quote, order);
+        }
+
+        if (type == "sell") {
+          this.ordersList.push(order);
+        }
+      });
+  }
+
+  async showPromptTo(type: string, quote: Quote, quantity = 0) {
+    let title = type == "bought" ? "Compre" : "Venda";
+    title += ` ${quote.sigla}`;
+
+    const { value: number } = await Swal.fire({
+      title,
+      text: "Digite abaixo a quantidade que deseja",
+      input: "number",
+      inputPlaceholder: "0000",
+      inputValue: String(quantity)
+    });
+
+    quantity = Number(number);
+
+    if (quantity) {
+      if (type == "bought") {
+        const amountValue = this.calcQuoteAmountValue(quote, quantity);
+
+        if (this.account.canUserRemoveValueOfAccount(amountValue)) {
+          this.saveOrder(type, quote, quantity);
+        } else {
+          Swal.fire({
+            title: "Ops ...",
+            text: "Você não dinheiro o suficiente para executar essa ação",
+            icon: "error"
+          });
+        }
+      } else if (quantity) {
+        this.saveOrder(type, quote, quantity);
+      }
+    }
+  }
+
+  setupQuotesChangeObserver() {
+    this.quotesService.listenQuotesChanges((quotesUpdated, lastQuote) => {
+      this.quotes = quotesUpdated;
+      this.account.wallet.pappers.forEach(papper => {
+        if (papper.quote.sigla == lastQuote.sigla) {
+          papper.quote = lastQuote;
+          papper.calcCurrentValue();
+        }
+      });
     });
   }
 
-  async buyAnPapper(quote: Quote, quantity: number) {
-    const amountValue = this.calcQuoteAmountValue(quote, quantity);
-  }
-
-  /*async buyAnPapper(quote: Quote, quantity: number) {
-    const amountValue = this.calcQuoteAmountValue(quote, quantity);
-
-    if (this.canUserRemoveValueOfAccount(amountValue)) {
-      await this.saveOrder(quote, quantity);
-      this.makeAnRemoveOnAccount(amountValue);
-    } else {
-      this.presentToast(this.errorMessages.userHasNotSuficientMoney);
-    }
-  }*/
-
   ngOnInit() {
-    this.quotesService.listenQuotesChanges(
-      quotesUpdated => (this.quotes = quotesUpdated)
-    );
+    this.setupQuotesChangeObserver();
   }
 }

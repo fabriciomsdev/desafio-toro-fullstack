@@ -1,9 +1,26 @@
 <section class="container">
-    <h3>Oportunidades:</h3>
+    
 
     <small *ngIf="quotes.length == 0" >
         Carregando papeis, títulos e fundos.
     </small>
+
+    <h3 *ngIf="account.wallet.pappers.length > 0">Sua Carteira:</h3>
+
+    <mat-card *ngFor="let papper of account.wallet.pappers" class="quote-card">
+        <mat-card-header>
+            <div mat-card-avatar>
+                <mat-icon mat-list-icon color="accent">attach_money</mat-icon>
+            </div>
+            <mat-card-subtitle>{{ papper.order.quantity }} x <b>{{ papper.quote.sigla }}</b>, Unit: {{ papper.quote.lastValue | currency: 'BRL' }}</mat-card-subtitle>
+            <mat-card-title>{{ papper.currentValue | currency: 'BRL' }}</mat-card-title>
+            <div class="quote-card__button-box" >
+                <button (click)='showPromptTo("sell", papper)' mat-raised-button color="primary" align="end">Vender</button>
+            </div>
+        </mat-card-header>
+    </mat-card>
+
+    <h3>Oportunidades:</h3>
 
     <mat-card *ngFor="let quote of quotes" class="quote-card">
         <mat-card-header>
@@ -13,7 +30,7 @@
             <mat-card-subtitle>{{ quote.sigla }}</mat-card-subtitle>
             <mat-card-title>{{ quote.lastValue | currency: 'BRL' }}</mat-card-title>
             <div class="quote-card__button-box" >
-                <button (click)="buyPapper()" mat-raised-button color="accent" align="end">Comprar</button>
+                <button (click)='showPromptTo("bought", quote)' mat-raised-button color="accent" align="end">Comprar</button>
             </div>
         </mat-card-header>
     </mat-card>

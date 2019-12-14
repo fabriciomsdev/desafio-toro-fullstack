@@ -47,6 +47,7 @@ export class QuotesService {
   public quotes: Array<Quote> = [];
   public observer: QuotesObserver;
   public factory: QuoteFactory;
+  public lastQuote: Quote;
 
   constructor() {
     this.observer = new QuotesObserver();
@@ -63,6 +64,8 @@ export class QuotesService {
       this.quotes.map(quote => {
         if (quote.sigla == newQuote.sigla) {
           quote.addValue(newQuote.getLastQuoteValue());
+
+          newQuote = quote;
           isARegistredQuote = true;
         }
       });
@@ -71,7 +74,7 @@ export class QuotesService {
         this.quotes.push(newQuote);
       }
 
-      callback(this.quotes);
+      callback(this.quotes, newQuote);
     });
   }
 }

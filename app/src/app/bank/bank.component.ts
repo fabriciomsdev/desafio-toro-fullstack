@@ -94,8 +94,10 @@ export class BankComponent implements OnInit {
       inputPlaceholder: "00,00"
     });
 
-    if (number) {
-      this.registerAnRemove(Number(number));
+    let moneyValue = Number(number);
+
+    if (moneyValue) {
+      this.registerAnRemove(moneyValue);
     }
   }
 
@@ -107,8 +109,10 @@ export class BankComponent implements OnInit {
       inputPlaceholder: "00,00"
     });
 
-    if (number) {
-      this.registerAnAport(Number(number));
+    let moneyValue = Number(number);
+
+    if (moneyValue) {
+      this.registerAnAport(moneyValue);
     }
   }
 
