@@ -1,20 +1,5 @@
 version: "3.7"
 services:
-  db:
-    build: "./backend/db/"
-    ports:
-      - '3307:3306'
-    command: mysqld --default-authentication-plugin=mysql_native_password
-    container_name: mysql-container
-    environment:
-       MYSQL_DATABASE: 'transactions'
-       MYSQL_USER: 'toro'
-       MYSQL_PASSWORD: '77991717025'
-       MYSQL_ROOT_PASSWORD: '77991717025'
-    volumes:
-      - ./backend/db/data:/var/lib/mysql
-    restart: always
-
   transactions_service:
     restart: always
     build: "./backend/services/transactions/"
@@ -30,6 +15,21 @@ services:
       - db
     links:
       - db:db
+
+  db:
+    build: "./backend/db/"
+    ports:
+      - '3307:3306'
+    command: mysqld --default-authentication-plugin=mysql_native_password
+    container_name: mysql-container
+    environment:
+       MYSQL_DATABASE: 'transactions'
+       MYSQL_USER: 'toro'
+       MYSQL_PASSWORD: '77991717025'
+       MYSQL_ROOT_PASSWORD: '77991717025'
+    volumes:
+      - ./backend/db/data:/var/lib/mysql
+    restart: always
 
   quotes_service:
     build: "./backend/services/quotes/"
@@ -49,6 +49,7 @@ services:
       - 4200:4200
     depends_on: 
       - transactions_service
+      - quotes_service
     command: > 
       bash -c "npm install && ng serve --host 0.0.0.0 --port 4200"
 
