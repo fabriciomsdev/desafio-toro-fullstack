@@ -93,7 +93,7 @@ export class TradeComponent implements OnInit {
   }
 
   setupQuotesChangeObserver() {
-    this.quotesService.listenQuotesChanges((quotesUpdated, lastQuote) => {
+    this.quotesService.whenQuotesChange((quotesUpdated, lastQuote) => {
       this.quotes = quotesUpdated;
       this.account.wallet.pappers.forEach(papper => {
         if (papper.quote.sigla == lastQuote.sigla) {

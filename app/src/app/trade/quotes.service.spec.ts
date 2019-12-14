@@ -35,7 +35,7 @@ describe('QuotesService', () => {
 
   it("test if websocket connection on microservice quotes is working", (done: DoneFn) => {
     const service: QuotesService = TestBed.get(QuotesService);
-    service.listenQuotesChanges(quotes => {
+    service.whenQuotesChange(quotes => {
       expect(service.quotes.length > 0).toBe(true);
       done();
     });

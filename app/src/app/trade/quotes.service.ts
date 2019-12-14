@@ -54,7 +54,7 @@ export class QuotesService {
     this.factory = new QuoteFactory();
   }
 
-  listenQuotesChanges(callback?) {
+  whenQuotesChange(callback?) {
     this.observer.listen(msg => {
       let newQuoteData = JSON.parse(msg.data);
       let isARegistredQuote = false;
