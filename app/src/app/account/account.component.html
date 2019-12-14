@@ -14,7 +14,7 @@
     </mat-tab>
 
     <mat-tab label="Invista!"> 
-      <trade [account]="account"></trade> 
+      <trade [account]="account" (afterOperationExecuted)="listenTrade($event)"></trade> 
     </mat-tab>
 
   </mat-tab-group>

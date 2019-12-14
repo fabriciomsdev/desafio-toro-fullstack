@@ -5,6 +5,7 @@ import { UserService } from '../login/auth.service';
 import { User } from '../models/user';
 import { Operation } from '../models/operations';
 import { Order } from '../models/order';
+import { Quote } from '../models/quotes';
 
 @Component({
   selector: "app-account",
@@ -14,32 +15,62 @@ import { Order } from '../models/order';
 export class AccountComponent implements OnInit {
   account = new Account();
 
-  constructor(public restFullApiService: RestFullApiBaseService, public authService: UserService) {}
+  constructor(
+    public restFullApiService: RestFullApiBaseService,
+    public authService: UserService
+  ) {}
 
-  ngOnInit() {
+  getAccountOperations() {
+    this.restFullApiService
+      .setResource("operations")
+      .fetch()
+      .subscribe((operations: OperationsGroup) => {
+        this.account.setOperations(operations);
+      });
+  }
+
+  getAccountOrders() {
+    this.restFullApiService
+      .setResource("orders")
+      .fetch()
+      .subscribe((orders: OrdersGroup) => {
+        this.account.setOrders(orders);
+      });
+  }
+
+  getAccountData() {
     if (this.authService.isAuth()) {
       this.restFullApiService
-          .setResource('me')
-          .fetch()
-          .subscribe((currentUserLogged: User) => {
-            this.account.user = currentUserLogged;
-
-            this.restFullApiService
-              .setResource("operations")
-              .fetch()
-              .subscribe(
-                (operations: OperationsGroup) => {
-                  this.account.setOperations(operations);
-                });
-
-            this.restFullApiService
-              .setResource("orders")
-              .fetch()
-              .subscribe(
-                (orders: OrdersGroup) => {
-                  this.account.setOrders(orders);
-                });
-          })
+        .setResource("me")
+        .fetch()
+        .subscribe((currentUserLogged: User) => {
+          this.account.user = currentUserLogged;
+          this.getAccountOperations();
+          this.getAccountOrders();
+        });
     }
+  }
+
+  listenTrade($event) {
+    const data = new Operation;
+    if ($event.type == "sell") {
+      data.operation_type = "deposit";
+    } else if ($event.type == "bought") {
+      data.operation_type = "draw";
+    }
+
+    data.value = $event.quantity * $event.quote.lastValue;
+
+    this.restFullApiService
+        .setResource("operations")
+        .post(data)
+        .subscribe((operation: Operation) => {
+          this.getAccountOperations();
+          this.getAccountOrders();
+        })
+  }
+
+  ngOnInit() {
+    this.getAccountData();
   }
 }
