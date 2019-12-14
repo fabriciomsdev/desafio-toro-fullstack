@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { AppModule } from '../app.module';
 import { RestFullApiBaseService } from './api-base.service';
 import * as moment from 'moment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 describe('RestFullApiBaseService', () => {
   let service: RestFullApiBaseService;
@@ -26,24 +28,46 @@ describe('RestFullApiBaseService', () => {
   it('should be created', () => {
     const service: RestFullApiBaseService = TestBed.get(RestFullApiBaseService);
     expect(service).toBeTruthy();
+    expect(service.http instanceof HttpClient).toBeTruthy();
+    expect(service.resourceUrlInApi == null).toBeTruthy();
+    expect(service.routeUrlParams == null).toBeTruthy();
+    expect(service.resource == null).toBeTruthy();
+    expect(service.apiPaths == environment.apiRoutes).toBeTruthy();
+    expect(service.baseUrl == environment.baseURLRequest).toBeTruthy();
   });
 
   it("test url resources was init correct", () => {
     const service: RestFullApiBaseService = TestBed.get(RestFullApiBaseService);
     service.setResource('login');
 
+    expect(service.setResource('login') instanceof RestFullApiBaseService).toBeTruthy();
     expect(service.resourceUrlInApi == environment.apiRoutes.login).toBeTruthy();
     expect(service.resource == "login").toBeTruthy();
   });
 
+  it("test http methods", () => {
+    expect(service.delete(1) instanceof Observable).toBeTruthy();
+    expect(service.post({}) instanceof Observable).toBeTruthy();
+    expect(service.put({}, 1) instanceof Observable).toBeTruthy();
+    expect(service.fetch() instanceof Observable).toBeTruthy();
+    expect(service.options() instanceof Observable).toBeTruthy();
+    expect(service.fetch({}, '') instanceof Observable).toBeTruthy();
+  })
+
+  it("test methods", () => {
+    expect(service.setHeader() instanceof HttpHeaders).toBeTruthy();
+    expect(service.setResource('orders') instanceof RestFullApiBaseService).toBeTruthy();
+    expect(service.put({}, 1) instanceof Observable).toBeTruthy();
+    expect(service.fetch() instanceof Observable).toBeTruthy();
+    expect(service.fetch({}, '') instanceof Observable).toBeTruthy();
+  })
+
   it("test url builder", () => {
     service.setResource("login");
-    const urlBuilded = service.builderUrl();
-    const urlBuildedWithComplment = service.builderUrl(1);
     const rightUrl = `${environment.baseURLRequest}${environment.apiRoutes.login}`;
     
-    expect(urlBuilded == rightUrl).toBeTruthy();
-    expect(urlBuildedWithComplment == `${rightUrl}1/`).toBeTruthy();
+    expect(service.builderUrl() == rightUrl).toBeTruthy();
+    expect(service.builderUrl(1) == `${rightUrl}1/`).toBeTruthy();
   })
 
   it("test set headers", () => {
@@ -81,7 +105,11 @@ describe("RestFullApiBaseService > Test post flow", () => {
       created_at: moment().toNow()
     };
 
-    service.post(operationTest).subscribe(operation => {
+    const request = service.post(operationTest);
+
+    expect(request instanceof Observable).toBeTruthy();
+
+    request.subscribe(operation => {
       expect(operation["value"]).toBe(operationTest.value);
       expect(operation["type"]).toBe(operationTest.type);
       expect(operation["created_at"]).toBe(operationTest.created_at);

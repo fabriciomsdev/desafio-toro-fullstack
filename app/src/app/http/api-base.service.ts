@@ -12,7 +12,7 @@ export class RestFullApiBaseService {
   resource: string;
   routeUrlParams;
 
-  constructor(protected http: HttpClient) {}
+  constructor(public http: HttpClient) {}
 
   setResource(resource) {
     this.resource = resource;
