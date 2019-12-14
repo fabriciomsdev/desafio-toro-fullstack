@@ -1,8 +1,7 @@
 # Toro Full Stack Challenge
 
 > **Solução Desenvolvida<br>**
-> Uma carteira simples e poderosa que possibilita comprar as mais diversas ações do mercado feita e aportar e retirar seus lucros.
-Foi feita em Angular + Django + D.R.F. + Djoser + JWT + Docker!
+> Uma carteira simples e poderosa que possibilita comprar as mais diversas ações do mercado, aportar valores para investir e retirar seus lucros através da venda das ações. Foi feita em Angular + Django + D.R.F. + Djoser + JWT + Docker!
 
 <p align="center">
   <img src="https://i.imgur.com/E3ZMMBZ.png" width=900>
@@ -10,7 +9,7 @@ Foi feita em Angular + Django + D.R.F. + Djoser + JWT + Docker!
 
 ## O que ela faz?
 
-Você pode depositar valores da sua conta ou sacar de forma rápida e ainda ter acesso a compra e venda das melhores ações do mercado em poucos cliques.
+Você pode depositar valores da sua conta ou sacar de forma rápida e ainda ter acesso a compra e venda das melhores ações em poucos cliques.
 
 ## Conceitos do Back End
 
@@ -20,7 +19,7 @@ Trasactions: São qualquer tipo de movimentação financeira feitas dentro da ap
             -> Orders: São compras de ações feitas dentro da plataforma, cada ordem executada gera automáticamente uma Operation com seu valor correspondente. Possuem os subtipos: Sell (Venda) e Bought (Compra).
         </li>
         <li>
-            -> Operations: São as operações bancárias feitas dentro da aplicação. Possuem os subtipos: Deposit (Aporte) e Draw (Retirada)<br>
+            -> Operations: São as operações bancárias feitas dentro da aplicação. Elas possuem os subtipos: Deposit (Aporte) e Draw (Retirada)<br>
         </li>
     </ul>
 
