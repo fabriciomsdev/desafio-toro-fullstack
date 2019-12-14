@@ -298,4 +298,17 @@ O front end vai estar disponível em no endereço: http://0.0.0.0:4200
 O back end vai estar disponível em no endereço: http://0.0.0.0:8082
 
 
+## Destop prints:
+
+<p align="center">
+  <img src="https://i.imgur.com/9XnRhgj.png" width=500>
+  <img src="https://i.imgur.com/9h4SioQ.png" width=500>
+</p>
+
+<p align="center">
+  <img src="https://i.imgur.com/Kqq2Zop.png" width=500>
+  <img src="https://i.imgur.com/iscMAPg.png" width=500>
+</p>
+
+
 ## Muito Obrigado pela oportunidade de poder estar participando desse desafio! 
