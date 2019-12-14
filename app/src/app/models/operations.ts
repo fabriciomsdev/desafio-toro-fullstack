@@ -1,8 +1,8 @@
 import { User } from "./user";
 
-export class Operation{
-    user: User;
-    value: number;
-    type: string;
-    created_at;
-}
+export class Operation {
+         user: any;
+         value: number;
+         operation_type: string;
+         created_at: any;
+       }
