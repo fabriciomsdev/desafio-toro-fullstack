@@ -25,4 +25,11 @@ export class Wallet {
 
     this.pappers.push(papper);
   }
+
+  removePapper(quote: Quote, order: Order) {
+    this.pappers = this.pappers.filter(
+      papper =>
+        papper.quote.sigla != quote.sigla && papper.order.quantity != order.quantity
+    );
+  }
 }
