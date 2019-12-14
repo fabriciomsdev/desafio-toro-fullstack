@@ -32,7 +32,7 @@ export class BankComponent implements OnInit {
         value: value,
         operation_type: "deposit"
       })
-      .subscribe((res:any) => {
+      .subscribe((res: any) => {
         this.makeAnAportOnAccount(res.value);
       });
   }
@@ -66,7 +66,7 @@ export class BankComponent implements OnInit {
         value: value,
         operation_type: "draw"
       })
-      .subscribe((res:any) => {
+      .subscribe((res: any) => {
         this.makeAnRemoveOnAccount(res.value);
       });
   }
