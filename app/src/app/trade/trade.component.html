@@ -15,7 +15,7 @@
             <mat-card-subtitle>{{ papper.order.quantity }} x <b>{{ papper.quote.sigla }}</b>, Unit: {{ papper.quote.lastValue | currency: 'BRL' }}</mat-card-subtitle>
             <mat-card-title>{{ papper.currentValue | currency: 'BRL' }}</mat-card-title>
             <div class="quote-card__button-box" >
-                <button (click)='showPromptTo("sell", papper)' mat-raised-button color="primary" align="end">Vender</button>
+                <button (click)='beginSellOrderProccess(papper)' mat-raised-button color="primary" align="end">Vender</button>
             </div>
         </mat-card-header>
     </mat-card>
@@ -30,7 +30,7 @@
             <mat-card-subtitle>{{ quote.sigla }}</mat-card-subtitle>
             <mat-card-title>{{ quote.lastValue | currency: 'BRL' }}</mat-card-title>
             <div class="quote-card__button-box" >
-                <button (click)='showPromptTo("bought", quote)' mat-raised-button color="accent" align="end">Comprar</button>
+                <button (click)='beginBuyOrderProccess(quote)' mat-raised-button color="accent" align="end">Comprar</button>
             </div>
         </mat-card-header>
     </mat-card>

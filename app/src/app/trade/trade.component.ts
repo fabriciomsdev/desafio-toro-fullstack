@@ -5,7 +5,7 @@ import { Account } from '../models/account';
 import Swal from 'sweetalert2';
 import { RestFullApiBaseService } from '../http/api-base.service';
 import { Order } from '../models/order';
-import { Wallet } from "../models/wallet";
+import { Wallet, Papper } from "../models/wallet";
 import * as moment from 'moment';
 
 @Component({
@@ -18,7 +18,7 @@ export class TradeComponent implements OnInit {
   ordersList = [];
   @Input() account: Account;
   @Output() afterOperationExecuted = new EventEmitter();
-  
+
   constructor(
     public quotesService: QuotesService,
     public restFullApiService: RestFullApiBaseService
@@ -37,22 +37,38 @@ export class TradeComponent implements OnInit {
         order_type: type
       })
       .subscribe((order: Order) => {
-        if (type == "bought") {
-          this.account.wallet.addPapper(quote, order);
-        }
-
-        if (type == "sell") {
-          this.ordersList.push(order);
-        }
+        this.account.wallet.addPapper(quote, order);
+        this.afterOperationExecuted.next({
+          type,
+          quote,
+          quantity
+        });
       });
   }
 
-  async showPromptTo(type: string, quote: Quote, quantity = 0) {
-    let title = type == "bought" ? "Compre" : "Venda";
-    title += ` ${quote.sigla}`;
+  updateOrder(order: Order, quote: Quote) {
+    this.restFullApiService
+      .setResource("orders")
+      .put(order, order.id)
+      .subscribe((order: Order) => {
+        this.account.wallet.removePapper(quote, order);
+        
+        this.afterOperationExecuted.next({
+          type: "sell",
+          quote: quote,
+          quantity: order.quantity
+        });
+      });
+  }
 
+  beginSellOrderProccess(papper: Papper) {
+    papper.order.order_type = 'sell';
+    this.updateOrder(papper.order, papper.quote);
+  }
+
+  async beginBuyOrderProccess(quote: Quote, quantity = 0) {
     const { value: number } = await Swal.fire({
-      title,
+      title: `Compre ${quote.sigla}`,
       text: "Digite abaixo a quantidade que deseja",
       input: "number",
       inputPlaceholder: "0000",
@@ -62,20 +78,16 @@ export class TradeComponent implements OnInit {
     quantity = Number(number);
 
     if (quantity) {
-      if (type == "bought") {
-        const amountValue = this.calcQuoteAmountValue(quote, quantity);
+      const amountValue = this.calcQuoteAmountValue(quote, quantity);
 
-        if (this.account.canUserRemoveValueOfAccount(amountValue)) {
-          this.saveOrder(type, quote, quantity);
-        } else {
-          Swal.fire({
-            title: "Ops ...",
-            text: "Você não dinheiro o suficiente para executar essa ação",
-            icon: "error"
-          });
-        }
-      } else if (quantity) {
-        this.saveOrder(type, quote, quantity);
+      if (this.account.canUserRemoveValueOfAccount(amountValue)) {
+        this.saveOrder("bought", quote, quantity);
+      } else {
+        Swal.fire({
+          title: "Ops ...",
+          text: "Você não dinheiro o suficiente para executar essa ação",
+          icon: "error"
+        });
       }
     }
   }

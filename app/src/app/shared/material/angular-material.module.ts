@@ -29,7 +29,8 @@ import { MatListModule } from "@angular/material/list";
     MatInputModule,
     MatDialogModule,
     MatTableModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatGridListModule
   ],
   exports: [
     MatTabsModule,
@@ -46,7 +47,8 @@ import { MatListModule } from "@angular/material/list";
     MatInputModule,
     MatDialogModule,
     MatTableModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatGridListModule
   ]
 })
 export class MaterialModule {}
