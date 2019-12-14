@@ -11,8 +11,9 @@ class OrderViewSet(UserCreateMixin, NestedViewSetMixin, ModelViewSet):
     permission_classes = (IsOwnerOrReadOnly, )
 
     def list(self, request):
-        boughts = self.queryset.filter(user=request.user, order_type="sell")
-        sells = self.queryset.filter(user=request.user, order_type="bought")
+        boughts = self.queryset.filter(
+            user=request.user, order_type="bought")
+        sells = self.queryset.filter(user=request.user, order_type="sell")
 
         boughts = self.serializer_class(boughts, many=True)
         sells = self.serializer_class(sells, many=True)
