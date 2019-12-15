@@ -8,6 +8,7 @@ export class Papper {
 
   calcCurrentValue() {
     this.currentValue = this.order.quantity * this.quote.lastValue;
+    return this.currentValue;
   }
 }
 
@@ -24,6 +25,10 @@ export class Wallet {
     papper.calcCurrentValue();
 
     this.pappers.push(papper);
+
+    this.calcBalance();
+
+    return this;
   }
 
   removePapper(quote: Quote, order: Order) {
@@ -31,5 +36,17 @@ export class Wallet {
       papper =>
         papper.quote.sigla != quote.sigla && papper.order.quantity != order.quantity
     );
+
+    this.calcBalance();
+
+    return this;
+  }
+
+  calcBalance() {
+    this.balance = 0;
+
+    this.pappers.forEach(papper => this.balance += papper.calcCurrentValue());
+
+    return this.balance;
   }
 }

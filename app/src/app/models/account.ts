@@ -1,7 +1,7 @@
 import { User } from './user';
 import { Operation } from './operations';
 import { Order } from './order';
-import { Wallet } from './wallet';
+import { Wallet, Papper } from './wallet';
 import { Quote } from './quotes';
 import * as moment from 'moment';
 
@@ -23,16 +23,38 @@ export class Account {
          wallet = new Wallet();
 
         updateWallet() {
-          this.orders.boughts.map(bought => {
+          let pappersToAdd = [];
+
+          this.orders.boughts.map(order => {
             let quote = new Quote();
-            quote.sigla = bought.sigla;
+            quote.sigla = order.sigla;
             quote.addValue({
               datetime: moment.now(),
               value: 0
             });
 
-            this.wallet.addPapper(quote, bought);
+            pappersToAdd.push({
+              quote,
+              order
+            });
           });
+
+          this.wallet.pappers.map(papper => {
+            pappersToAdd.map((papperToAdd: Papper) => {
+              if (papperToAdd.quote.sigla == papper.quote.sigla) {
+                papperToAdd.quote.addValue({
+                  datetime: moment.now(),
+                  value: papper.quote.lastValue
+                }); 
+              }
+            })
+          })
+
+          this.wallet.pappers = [];
+
+          pappersToAdd.forEach(papper => this.wallet.addPapper(papper.quote, papper.order));
+          
+          return this;
         }
 
          setOrders(orders: OrdersGroup) {
