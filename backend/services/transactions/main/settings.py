@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_filters',
     'djoser',
-    'orders',
+    'transactions',
 ]
 
 MIDDLEWARE = [
