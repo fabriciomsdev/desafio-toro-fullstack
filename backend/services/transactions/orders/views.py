@@ -4,11 +4,13 @@ from .models import Order, Operation
 from main.permissions import IsOwnerOrReadOnly
 from rest_framework.response import Response
 from main.views import (UserCreateMixin, NestedViewSetMixin, ModelViewSet)
+from rest_framework.permissions import IsAuthenticated
+
 
 class OrderViewSet(UserCreateMixin, NestedViewSetMixin, ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = (IsOwnerOrReadOnly, )
+    permission_classes = (IsOwnerOrReadOnly, IsAuthenticated)
 
     def list(self, request):
         boughts = self.queryset.filter(
@@ -27,7 +29,7 @@ class OrderViewSet(UserCreateMixin, NestedViewSetMixin, ModelViewSet):
 class OperationViewSet(UserCreateMixin, NestedViewSetMixin, ModelViewSet):
     queryset = Operation.objects.all()
     serializer_class = OperationSerializer
-    permission_classes = (IsOwnerOrReadOnly, )
+    permission_classes = (IsOwnerOrReadOnly, IsAuthenticated)
 
     def list(self, request):
         draws = self.queryset.filter(user=request.user, operation_type="draw")

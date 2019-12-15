@@ -5,7 +5,7 @@ from main.settings import AUTH_USER_MODEL
 from django.apps import apps
 import json
 import abc
-
+from django.contrib.auth import get_user_model
 
 class GenericDRFTestResource():
     data_for_test = {}
@@ -13,11 +13,12 @@ class GenericDRFTestResource():
     url = ''
     user_model = apps.get_model(*(AUTH_USER_MODEL).split('.'))
     detail_of_item_stored = {}
+    auth_user = None
 
     def setUp(self):
         self.client = APIClient()
         self.create_an_user()
-        self.auth_user = self.user_model.objects.first()
+        self.do_login()
 
     def build_url(self, params=None, pk=None):
         url = self.url
@@ -30,26 +31,20 @@ class GenericDRFTestResource():
         return url
 
     def create_an_user(self, is_staff=False):
-        pass
+        self.auth_user = get_user_model().objects.create_user(
+            'fabricioms.dev@gmail.com',
+            'hakunamatata'
+        )
+        
 
     def create_an_item(self):
         response = self.client.post(self.build_url(), self.data_for_test)
+        
         self.detail_of_item_stored = json.loads(response.content)
         return self
 
     def do_login(self):
-        self.admin = self.user_model(
-            username='testuser@gmail.com',
-            email='testuser@gmail.com',
-            password='password',
-            is_active=True)
-        self.admin.save()
-
-        self.client.force_authenticate(user=self.admin)
-        self.client.login(email=self.admin.username, password='password')
-
-        print(self.client.login(
-            email=self.admin.username, password='password'))
+        self.client.force_authenticate(self.auth_user)
 
         return self
 
@@ -65,6 +60,7 @@ class TestUserNotLoggedCanNotPost(GenericDRFTestResource):
         """
             If user wasn't make login he cann't publish a post
         """
+        self.client.logout()
         response = self.client.post(self.build_url(), self.data_for_test)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 

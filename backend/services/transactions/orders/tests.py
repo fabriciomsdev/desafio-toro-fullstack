@@ -44,4 +44,4 @@ class OperationRestApiTest(
         'value': 100,
         'operation_type': 'draw'
     }
-    url = '/api/operation/'
+    url = '/api/operations/'
