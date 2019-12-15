@@ -15,4 +15,12 @@ body {
 
 .container {
     padding: 1rem;
+    @media only screen and (min-width: 600px) {
+        display: flex;
+        section {
+            flex-basis: 46%;
+            margin-left: 2%;
+            margin-right: 2%;
+        }
+    }
 }
