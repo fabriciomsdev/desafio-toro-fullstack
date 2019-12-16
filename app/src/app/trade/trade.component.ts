@@ -17,7 +17,7 @@ export class TradeComponent implements OnInit {
   quotes: Array<Quote> = [];
   ordersList = [];
   @Input() account: Account = new Account();
-  @Output() afterOperationExecuted = new EventEmitter();
+  @Output() afterOrderExecuted = new EventEmitter();
 
   constructor(
     public quotesService: QuotesService,
@@ -39,7 +39,7 @@ export class TradeComponent implements OnInit {
       })
       .subscribe((order: Order) => {
         this.account.wallet.addPapper(quote, order);
-        this.afterOperationExecuted.next({
+        this.afterOrderExecuted.next({
           type,
           quote,
           quantity
@@ -54,7 +54,7 @@ export class TradeComponent implements OnInit {
       .subscribe((order: Order) => {
         this.account.wallet.removePapper(quote, order);
         
-        this.afterOperationExecuted.next({
+        this.afterOrderExecuted.next({
           type: "sell",
           quote: quote,
           quantity: order.quantity

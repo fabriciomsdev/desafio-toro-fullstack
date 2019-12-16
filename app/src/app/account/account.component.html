@@ -10,11 +10,11 @@
   <mat-tab-group color="accent">
 
     <mat-tab label="Minha Conta"> 
-      <bank [account]="account"></bank> 
+      <bank [account]="account" (afterOperationExecuted)="listenOperations($event)"></bank> 
     </mat-tab>
 
     <mat-tab label="Invista!"> 
-      <trade [account]="account" (afterOperationExecuted)="listenTrade($event)"></trade> 
+      <trade [account]="account" (afterOrderExecuted)="listenTrade($event)"></trade> 
     </mat-tab>
 
   </mat-tab-group>

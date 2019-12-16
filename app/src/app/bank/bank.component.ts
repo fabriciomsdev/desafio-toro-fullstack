@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { User } from './../models/user';
 import Swal, { SweetAlertOptions } from "sweetalert2";
 import { Operation } from '../models/operations';
@@ -18,7 +18,8 @@ export class BankComponent implements OnInit {
     userHasNotSuficientMoney:
       "Você não tem dinheiro o suficiente para executar está ação!"
   };
-
+  @Output() afterOperationExecuted = new EventEmitter();
+  
   constructor(public restFullApiService: RestFullApiBaseService) {}
 
   presentAlert(alertDate: SweetAlertOptions) {
@@ -34,6 +35,7 @@ export class BankComponent implements OnInit {
       })
       .subscribe((res: any) => {
         this.makeAnAportOnAccount(res.value);
+        this.afterOperationExecuted.next(res);
       });
   }
 
@@ -68,6 +70,7 @@ export class BankComponent implements OnInit {
       })
       .subscribe((res: any) => {
         this.makeAnRemoveOnAccount(res.value);
+        this.afterOperationExecuted.next(res);
       });
   }
 

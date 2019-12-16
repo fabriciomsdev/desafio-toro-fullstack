@@ -56,6 +56,10 @@ export class AccountComponent implements OnInit {
     this.getAccountOrders();
   }
 
+  listenOperations($event) {
+    this.getAccountOperations();
+  }
+
   ngOnInit() {
     this.getAccountData();
   }
