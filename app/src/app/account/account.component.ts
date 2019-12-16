@@ -52,15 +52,6 @@ export class AccountComponent implements OnInit {
   }
 
   listenTrade($event) {
-    const data = new Operation;
-    if ($event.type == "sell") {
-      data.operation_type = "deposit";
-    } else if ($event.type == "bought") {
-      data.operation_type = "draw";
-    }
-
-    data.value = $event.quantity * $event.quote.lastValue;
-
     this.getAccountOperations();
     this.getAccountOrders();
   }
