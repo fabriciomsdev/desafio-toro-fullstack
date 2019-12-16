@@ -61,13 +61,8 @@ export class AccountComponent implements OnInit {
 
     data.value = $event.quantity * $event.quote.lastValue;
 
-    this.restFullApiService
-        .setResource("operations")
-        .post(data)
-        .subscribe((operation: Operation) => {
-          this.getAccountOperations();
-          this.getAccountOrders();
-        })
+    this.getAccountOperations();
+    this.getAccountOrders();
   }
 
   ngOnInit() {
