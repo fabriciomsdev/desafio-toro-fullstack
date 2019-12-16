@@ -34,7 +34,8 @@ export class TradeComponent implements OnInit {
       .post({
         sigla: quote.sigla,
         quantity: quantity,
-        order_type: type
+        order_type: type,
+        value: quote.lastValue * quantity
       })
       .subscribe((order: Order) => {
         this.account.wallet.addPapper(quote, order);
@@ -43,7 +44,7 @@ export class TradeComponent implements OnInit {
           quote,
           quantity
         });
-      });
+      }, error => this.showMessageYouDontHaveBalance());
   }
 
   updateOrder(order: Order, quote: Quote) {
@@ -66,6 +67,14 @@ export class TradeComponent implements OnInit {
     this.updateOrder(papper.order, papper.quote);
   }
 
+  showMessageYouDontHaveBalance() {
+    Swal.fire({
+      title: "Ops ...",
+      text: "Você não dinheiro o suficiente para executar essa ação",
+      icon: "error"
+    });
+  }
+
   async beginBuyOrderProccess(quote: Quote, quantity = 0) {
     const { value: number } = await Swal.fire({
       title: `Compre ${quote.sigla}`,
@@ -79,15 +88,11 @@ export class TradeComponent implements OnInit {
 
     if (quantity) {
       const amountValue = this.calcQuoteAmountValue(quote, quantity);
-
+      
       if (this.account.canUserRemoveValueOfAccount(amountValue)) {
         this.saveOrder("bought", quote, quantity);
       } else {
-        Swal.fire({
-          title: "Ops ...",
-          text: "Você não dinheiro o suficiente para executar essa ação",
-          icon: "error"
-        });
+        this.showMessageYouDontHaveBalance()
       }
     }
   }

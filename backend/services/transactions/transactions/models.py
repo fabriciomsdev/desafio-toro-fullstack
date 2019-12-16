@@ -17,7 +17,7 @@ class Order(BelongsToUserModel):
     sigla = models.CharField(null=True, blank=True, max_length=10)
     order_type = models.CharField(
         choices=ORDER_CHOICES, null=True, blank=True, max_length=10)
-
+    value = models.FloatField(null=True, blank=True, default=0)
 
 class Operation(BelongsToUserModel):
     value = models.FloatField(null=True, blank=True, default=0)

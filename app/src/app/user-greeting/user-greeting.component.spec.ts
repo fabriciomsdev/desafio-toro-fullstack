@@ -23,15 +23,15 @@ describe('UserGreetingComponent', () => {
   });
 
   it('test greeting generate', () => {
-    const day = "12-12-2019 {time}";
-    const morning = moment(day.replace("{time}", "08:00:00"), "MM-DD-YYYY HH:mm:ss");
-    const afternoon = moment(day.replace("{time}", "15:00:00"), "MM-DD-YYYY HH:mm:ss");
-    const night = moment(day.replace("{time}", "20:00:00"), "MM-DD-YYYY HH:mm:ss");
+    const day = "12-12-2019 ";
+    const morning = moment(day + "08:00:00", "MM-DD-YYYY HH:mm:ss");
+    const afternoon = moment(day + "15:00:00", "MM-DD-YYYY HH:mm:ss");
+    const night = moment(day + "20:00:00", "MM-DD-YYYY HH:mm:ss");
 
-    expect(component.getGreetingTime(morning) == 'Bom dia').toBeTruthy();
-    expect(component.getGreetingTime(afternoon) == "Boa tarde").toBeTruthy();
-    expect(component.getGreetingTime(night) == "Boa noite").toBeTruthy();
-    expect(component.greetingPhrase == component.getGreetingTime(moment()));
+    expect(component.getGreetingTime(morning)).toBe("Bom dia");
+    expect(component.getGreetingTime(afternoon)).toBe("Boa tarde");
+    expect(component.getGreetingTime(night)).toBe("Boa noite");
+    expect(component.greetingPhrase == component.getGreetingTime(moment())).toBeTruthy();
   })
 
   it("test greeting name format", () => {

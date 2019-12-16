@@ -71,7 +71,6 @@ class TestUserLoggedCanPost(GenericDRFTestResource):
 
             response = self.client.post(self.build_url(), self.data_for_test)
             self.detail_of_item_stored = response.content
-
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
