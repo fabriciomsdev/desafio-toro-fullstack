@@ -103,7 +103,7 @@ Sem o Docker, recomendo que use o Virtual Env para isolar as depêndencias:
 A aplicação foi desenvolvida usando o padrão Restful para facilitar o entendimento da mesma, seu ponto de conexão encontra-se em http://0.0.0.0:8088/api. 
 As rotas mais importantes são, /orders, /operations, /auth. 
 
-### `GET /orders`
+### `GET /orders/`
 
 ```json
 {
@@ -145,7 +145,7 @@ As rotas mais importantes são, /orders, /operations, /auth.
 ```
 
 
-### `POST /orders`
+### `POST /orders/`
 
 Publique uma ordem assim:
 - Payload:
@@ -154,11 +154,12 @@ Publique uma ordem assim:
     {
         "order_type": "bought",
         "sigla": "PETR4",
-        "quantity": 5
+        "quantity": 5,
+        "value": 50 // CURRENT TOTAL VALUE OF OPERATION
     }
 ```
 
-### `PUT /orders/{order_ID}`
+### `PUT /orders/{order_ID}/`
 
 Edite uma ordem assim.
 
@@ -171,12 +172,13 @@ PUT:
         "id": 3,
         "order_type": "sell",
         "sigla": "PETR4",
-        "quantity": 5
+        "quantity": 5,
+        "value": 100 // CURRENT TOTAL VALUE OF OPERATION
     }
 ```
 
 
-### `GET /operations`
+### `GET /operations/`
 
 ```json
 {
@@ -213,7 +215,7 @@ PUT:
 
 Some o valor total de 'deposits.value' e subtraia do valor total de 'draws.value' para chegar o balanço da conta.
 
-### `POST /operations`
+### `POST /operations/`
 
 Publique uma operação assim:
 
@@ -225,7 +227,7 @@ Publique uma operação assim:
 ```
 
 
-### `PUT /operations/{operation_ID}`
+### `PUT /operations/{operation_ID}/`
 
 Edite uma operação assim.
 
